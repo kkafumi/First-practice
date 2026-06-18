@@ -13,7 +13,7 @@ class Graph {
 
   void AddEdge(int from, int to) {
     tree_[from].push_back(to);
-    tree_[to].push_back(from);
+    tree_[to].push_back(from);  // неориентированный граф
   }
 
   std::vector<int>& GetChildren(int vertex) {
@@ -23,7 +23,7 @@ class Graph {
   void DFS(int start, std::vector<bool>& used) {
     used[start] = true;
     std::vector<int> children = GetChildren(start);
-    for (int i = 0; i < static_cast<int>(children.size()); ++i) {
+    for (int i = 0; i < static_cast<int>(children.size()); ++i) {  // безопасный down cast для совпадения типов
       int ch = children[i];
       if (!used[ch]) {
         DFS(ch, used);
@@ -37,10 +37,11 @@ int main() {
   int number_edges = 0;
   std::cin >> number_vertexes;
   std::cin >> number_edges;
+
   std::vector<bool> used(number_vertexes, false);
   Graph moon_system(number_vertexes);
 
-  for (int i = 0; i < number_edges; ++i) {
+  for (int i = 0; i < number_edges; ++i) {  // ввод рёбер
     int from = 0;
     int to = 0;
     std::cin >> from;
@@ -49,7 +50,7 @@ int main() {
   }
 
   int count_components = 0;
-  for (int i = 0; i < number_vertexes; ++i) {
+  for (int i = 0; i < number_vertexes; ++i) {  // подсчёт компонент связности с помощью алгоритма DFS(поиск в глубину)
     if (!used[i]) {
       moon_system.DFS(i, used);
       count_components += 1;
