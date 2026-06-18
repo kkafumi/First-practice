@@ -10,13 +10,16 @@ class Graph {
   explicit Graph(int n) : vertexes_number_(n) {
     tree_.resize(n);
   }
+
   void AddEdge(int from, int to) {
     tree_[from].push_back(to);
     tree_[to].push_back(from);
   }
-  std::vector<int> GetChildren(int vertex) {
+
+  std::vector<int>& GetChildren(int vertex) {
     return tree_[vertex];
   }
+
   void DFS(int start, std::vector<bool>& used) {
     used[start] = true;
     std::vector<int> children = GetChildren(start);
@@ -36,6 +39,7 @@ int main() {
   std::cin >> number_edges;
   std::vector<bool> used(number_vertexes, false);
   Graph moon_system(number_vertexes);
+
   for (int i = 0; i < number_edges; ++i) {
     int from = 0;
     int to = 0;
@@ -43,6 +47,7 @@ int main() {
     std::cin >> to;
     moon_system.AddEdge(from - 1, to - 1);
   }
+
   int count_components = 0;
   for (int i = 0; i < number_vertexes; ++i) {
     if (!used[i]) {
@@ -50,6 +55,7 @@ int main() {
       count_components += 1;
     }
   }
-  std::cout << "Number of required communication lines: " << count_components - 1 << "\n";
+
+  std::cout << count_components - 1 << "\n";
   return 0;
 }
